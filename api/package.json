@@ -1,27 +1,36 @@
 {
-  "name": "api",
+  "name": "@xenon/api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Xenon auth API — email one-time code + Google OAuth",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p .",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit -p .",
+    "test:merge": "bash scripts/test-merge.sh",
+    "dev:users": "tsx scripts/dev-tool.ts list-users",
+    "dev:tool": "tsx scripts/dev-tool.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "cookie-parser": "^1.4.7",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "node-appwrite": "^27.1.0",
-    "ws": "^8.21.1"
+    "dotenv": "^17.0.0",
+    "express": "^5.1.0",
+    "mongoose": "^8.9.0",
+    "resend": "^4.0.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.10",
-    "@types/express": "^5.0.6",
-    "@types/node": "^26.1.1",
-    "tsx": "^4.23.1",
-    "typescript": "^7.0.2"
+    "@types/cookie-parser": "^1.4.7",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.13",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
   }
 }
