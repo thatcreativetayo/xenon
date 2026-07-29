@@ -178,10 +178,10 @@ function VerifyForm() {
   const isComplete = digits.every(Boolean);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-5 py-12 text-dark dark:bg-dark dark:text-background">
+    <main className="flex min-h-screen items-center justify-center bg-background px-5 py-12 text-dark">
       <div className="flex w-full max-w-sm flex-col items-center text-center">
-        <div className="mb-8 flex items-center gap-2 text-2xl font-bold text-base dark:text-background">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-base/10 text-base dark:bg-background/10 dark:text-background">
+        <div className="mb-8 flex items-center gap-2 text-2xl font-bold text-base">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-base/10 text-base">
             ϟ
           </span>
           Xenon
@@ -190,8 +190,8 @@ function VerifyForm() {
         <h1 className="text-[32px] font-bold leading-tight tracking-[-1.5px]">
           Enter your code.
         </h1>
-        <p className="mt-2 font-medium text-dark/50 dark:text-background/55">
-          We sent a code to <span className="break-all text-dark/70 dark:text-background/75">{email}</span>
+        <p className="mt-2 font-medium text-dark/50">
+          We sent a code to <span className="break-all text-dark/70">{email}</span>
         </p>
 
         <form onSubmit={handleVerify} className="mt-7 w-full">
@@ -211,13 +211,13 @@ function VerifyForm() {
                 onChange={(event) => handleChange(index, event.target.value)}
                 onKeyDown={(event) => handleKeyDown(index, event)}
                 onPaste={(event) => handlePaste(index, event)}
-                className="h-12 w-11 rounded-[14px] border border-base/20 bg-white text-center text-xl font-bold text-dark outline-0 shadow shadow-dark/3 focus:ring focus:ring-base/60 dark:border-background/15 dark:bg-white/5 dark:text-background"
+                className="h-12 w-11 rounded-[14px] border border-base/20 bg-white text-center text-xl font-bold text-dark outline-0 shadow shadow-dark/3 focus:ring focus:ring-base/60"
               />
             ))}
           </div>
 
           {error && (
-            <p role="alert" className="mt-3 text-sm font-semibold text-red-600 dark:text-red-400">
+            <p role="alert" className="mt-3 text-sm font-semibold text-red-600">
               {error}
             </p>
           )}
@@ -235,7 +235,7 @@ function VerifyForm() {
           type="button"
           onClick={handleResend}
           disabled={secondsLeft > 0 || isResending}
-          className="mt-5 font-semibold text-base underline-offset-4 hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50 dark:text-background"
+          className="mt-5 font-semibold text-base underline-offset-4 hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
         >
           {isResending
             ? "Sending..."
@@ -246,7 +246,7 @@ function VerifyForm() {
 
         <a
           href="/auth"
-          className="mt-4 font-semibold text-base/70 underline-offset-4 hover:underline dark:text-background/70"
+          className="mt-4 font-semibold text-base/70 underline-offset-4 hover:underline"
         >
           Use a different email
         </a>
@@ -257,7 +257,7 @@ function VerifyForm() {
 
 export default function VerifyPage() {
   return (
-    <Suspense fallback={<main className="min-h-screen bg-background dark:bg-dark" />}>
+    <Suspense fallback={<main className="min-h-screen bg-background" />}>
       <VerifyForm />
     </Suspense>
   );

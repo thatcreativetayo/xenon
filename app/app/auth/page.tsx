@@ -75,14 +75,14 @@ export default function AuthPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-5 py-12 text-dark dark:bg-[#0A0A0A] dark:text-background">
+    <main className="flex min-h-screen items-center justify-center bg-background px-5 py-12 text-dark">
       <div className="flex w-full max-w-sm flex-col items-center">
         <Image
           src="/logo.svg"
           alt="Xenon"
           width={160}
           height={50}
-          className="mb-8 h-auto w-25 dark:brightness-0 dark:invert"
+          className="mb-8 h-auto w-25"
           priority
         />
 
@@ -90,7 +90,7 @@ export default function AuthPage() {
           <h1 className="text-[32px] font-bold leading-tight tracking-[-1.5px]">
             Welcome to the JSON sandbox.
           </h1>
-          <p className="mx-auto mt-1.5 max-w-sm font-medium text-dark/50 dark:text-background/55">
+          <p className="mx-auto mt-1.5 max-w-sm font-medium text-dark/50">
             Test endpoints, transform payloads, and inspect data using simple visual forms.
           </p>
         </div>
@@ -111,31 +111,31 @@ export default function AuthPage() {
             placeholder="Enter your email address..."
             aria-invalid={Boolean(error)}
             aria-describedby={error ? "email-error" : undefined}
-            className="rounded-[14px] border border-base/20 bg-white px-3.5 py-2.5 font-medium text-dark outline-0 shadow shadow-dark/3 placeholder:text-dark/30 focus:ring focus:ring-base/60 dark:border-background/15 dark:bg-white/5 dark:text-background dark:placeholder:text-background/30"
+            className="rounded-[14px] border border-base/20 bg-white px-3.5 py-2.5 font-medium text-dark outline-0 shadow shadow-dark/3 placeholder:text-dark/30 focus:ring focus:ring-base/60"
           />
           {error && (
-            <p id="email-error" role="alert" className="-mt-1 text-sm font-semibold text-red-600 dark:text-red-400">
+            <p id="email-error" role="alert" className="-mt-1 text-sm font-semibold text-red-600">
               {error}
             </p>
           )}
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-[14px] bg-base py-2.5 text-center font-bold text-white shadow-xl shadow-base/20 ring-4 ring-[#81623F]/20 transition-all duration-300 hover:scale-[1.01] disabled:cursor-wait disabled:opacity-70"
+            className="w-full rounded-[14px] bg-base py-2.5 text-center font-bold text-white shadow-xl shadow-base/20 ring-4 ring-base/20 transition-all duration-300 hover:scale-[1.01] disabled:cursor-wait disabled:opacity-70"
           >
             {isSubmitting ? "Sending..." : "Continue"}
           </button>
         </form>
 
-        <div className="my-7 flex w-full items-center gap-2 text-xs font-bold text-base/80 dark:text-background/70">
-          <span className="h-px flex-1 bg-base/15 dark:bg-background/15" />
+        <div className="my-7 flex w-full items-center gap-2 text-xs font-bold text-base/80">
+          <span className="h-px flex-1 bg-base/15" />
           <span>OR</span>
-          <span className="h-px flex-1 bg-base/15 dark:bg-background/15" />
+          <span className="h-px flex-1 bg-base/15" />
         </div>
 
         <a
           href={`${BACKEND_URL}/auth/google`}
-          className="flex w-full items-center justify-center gap-2 rounded-[14px] border border-base/10 bg-white py-2.5 font-semibold text-base shadow shadow-dark/3 transition hover:border-base/25 hover:bg-base/5 dark:border-background/15 dark:bg-white/5 dark:text-background dark:hover:bg-white/10"
+          className="flex w-full items-center justify-center gap-2 rounded-[14px] border border-base/10 bg-white py-2.5 font-semibold text-base shadow shadow-dark/3 transition hover:border-base/25 hover:bg-base/5"
         >
           <GoogleIcon />
           Continue with Google
