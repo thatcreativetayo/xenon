@@ -26,6 +26,8 @@ export const badRequest = (code: string, message: string, details?: Record<strin
 
 export const unauthorized = (code: string, message: string) => new HttpError(401, code, message)
 
+export const notFound = (code: string, message: string) => new HttpError(404, code, message)
+
 export const conflict = (code: string, message: string) => new HttpError(409, code, message)
 
 export const tooManyRequests = (
@@ -35,6 +37,8 @@ export const tooManyRequests = (
 ) => new HttpError(429, code, message, details)
 
 export const badGateway = (code: string, message: string) => new HttpError(502, code, message)
+
+export const gatewayTimeout = (code: string, message: string) => new HttpError(504, code, message)
 
 /** True for a MongoDB duplicate-key error (unique index violation). */
 export function isDuplicateKeyError(err: unknown): boolean {

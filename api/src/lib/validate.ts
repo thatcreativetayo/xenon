@@ -1,3 +1,5 @@
+import mongoose from 'mongoose'
+
 import { badRequest } from './errors.js'
 
 // Deliberately permissive: one @, no spaces, a dot in the domain. Real
@@ -36,4 +38,43 @@ export function parseCode(value: unknown): string {
     throw badRequest('code_invalid', 'The code must be six digits.')
   }
   return code
+}
+
+/** Validates a route param / body field that must be a Mongo ObjectId. */
+export function parseObjectId(value: unknown, field: string): string {
+  if (typeof value !== 'string' || !mongoose.isValidObjectId(value)) {
+    throw badRequest(`${field}_invalid`, `"${field}" must be a valid id.`)
+  }
+  return value
+}
+
+/** Human-facing names: workspaces, collections, saved requests. */
+export function parseName(value: unknown, field: string): string {
+  if (typeof value !== 'string' || value.trim() === '') {
+    throw badRequest(`${field}_required`, `A non-empty "${field}" string is required.`)
+  }
+  const name = value.trim()
+  if (name.length > 120) {
+    throw badRequest(`${field}_too_long`, `"${field}" must be 120 characters or fewer.`)
+  }
+  return name
+}
+
+/** limit/skip query params with sane bounds. */
+export function parsePagination(
+  query: Record<string, unknown>,
+  defaults: { limit: number; maxLimit: number },
+): { limit: number; skip: number } {
+  const parseIntParam = (raw: unknown, field: string, fallback: number): number => {
+    if (raw === undefined) return fallback
+    const n = typeof raw === 'string' ? Number(raw) : NaN
+    if (!Number.isInteger(n) || n < 0) {
+      throw badRequest(`${field}_invalid`, `"${field}" must be a non-negative integer.`)
+    }
+    return n
+  }
+
+  const limit = Math.min(parseIntParam(query.limit, 'limit', defaults.limit), defaults.maxLimit)
+  const skip = parseIntParam(query.skip, 'skip', 0)
+  return { limit: Math.max(1, limit), skip }
 }

@@ -18,3 +18,13 @@ export const AUTH_COOKIE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000
 
 /** OAuth state cookie lifetime — long enough to pick a Google account, no longer. */
 export const OAUTH_STATE_MAX_AGE_MS = 10 * 60 * 1000
+
+/** How long /api/execute waits for the target server before aborting. */
+export const EXECUTE_TIMEOUT_MS = 15 * 1000
+
+/** Largest target-response body /api/execute will buffer and return. */
+export const EXECUTE_MAX_RESPONSE_BYTES = 5 * 1024 * 1024
+
+/** Request-history pagination defaults. */
+export const HISTORY_DEFAULT_LIMIT = 50
+export const HISTORY_MAX_LIMIT = 200

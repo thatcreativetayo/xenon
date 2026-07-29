@@ -9,6 +9,7 @@ import { badRequest } from '../lib/errors.js'
 import { generateOAuthState } from '../lib/tokens.js'
 import { buildGoogleAuthUrl, resolveGoogleProfileFromCode } from '../services/google.js'
 import { findOrCreateUserByGoogle } from '../services/users.js'
+import { ensureDefaultWorkspace } from '../services/workspaces.js'
 
 export const googleAuthRouter = express.Router()
 
@@ -79,6 +80,13 @@ googleAuthRouter.get(
     })
 
     setAuthCookie(res, user.token)
+
+    if (created) {
+      // Non-fatal: GET /api/workspaces lazily re-provisions if this fails.
+      await ensureDefaultWorkspace(user).catch((err) =>
+        console.error('[workspace] default provisioning failed:', err),
+      )
+    }
 
     console.log(
       created

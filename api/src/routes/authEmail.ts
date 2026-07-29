@@ -7,6 +7,7 @@ import { parseCode, parseEmail } from '../lib/validate.js'
 import { consumeEmailCode, issueEmailCode } from '../services/emailCodes.js'
 import { sendLoginCodeEmail } from '../services/mailer.js'
 import { findOrCreateUserByEmail, publicUser } from '../services/users.js'
+import { ensureDefaultWorkspace } from '../services/workspaces.js'
 
 export const emailAuthRouter = express.Router()
 
@@ -54,6 +55,13 @@ emailAuthRouter.post(
 
     const { user, created } = await findOrCreateUserByEmail({ email })
     setAuthCookie(res, user.token)
+
+    if (created) {
+      // Non-fatal: GET /api/workspaces lazily re-provisions if this fails.
+      await ensureDefaultWorkspace(user).catch((err) =>
+        console.error('[workspace] default provisioning failed:', err),
+      )
+    }
 
     console.log(`[auth] email login ${created ? 'created' : 'reused'} user ${email}`)
 
