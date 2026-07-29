@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
@@ -76,7 +77,7 @@ export default function AuthPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-5 py-12 text-dark">
-      <div className="flex w-full max-w-sm flex-col items-center">
+      <div className="flex w-full flex-col items-center">
         <Image
           src="/logo.svg"
           alt="Xenon"
@@ -87,15 +88,15 @@ export default function AuthPage() {
         />
 
         <div className="text-center">
-          <h1 className="text-[32px] font-bold leading-tight tracking-[-1.5px]">
+          <h1 className="text-[28px] font-bold leading-tight tracking-[-1.5px]">
             Welcome to the JSON sandbox.
           </h1>
-          <p className="mx-auto mt-1.5 max-w-sm font-medium text-dark/50">
+          <p className="mx-auto mt-1.5 text-[15px] max-w-sm font-medium text-dark/50">
             Test endpoints, transform payloads, and inspect data using simple visual forms.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-6 flex w-full flex-col gap-3">
+        <form onSubmit={handleSubmit} className="mt-6 max-w-sm flex w-full flex-col gap-3">
           <label htmlFor="email" className="sr-only">
             Email address
           </label>
@@ -121,13 +122,14 @@ export default function AuthPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full rounded-[14px] bg-base py-2.5 text-center font-bold text-white shadow-xl shadow-base/20 ring-4 ring-base/20 transition-all duration-300 hover:scale-[1.01] disabled:cursor-wait disabled:opacity-70"
+            className="w-full relative rounded-[14px] cursor-pointer bg-base py-2.5 text-center font-bold text-white shadow-xl shadow-base/20 ring-4 ring-base/20 transition-all duration-300 hover:scale-[1.01] disabled:cursor-wait disabled:opacity-70"
           >
+            <div className="bg-white h-4 absolute -bottom-4 blur-[26px] rounded-full w-1/3 left-1/3"></div>
             {isSubmitting ? "Sending..." : "Continue"}
           </button>
         </form>
 
-        <div className="my-7 flex w-full items-center gap-2 text-xs font-bold text-base/80">
+        <div className="my-7 flex max-w-sm w-full items-center gap-2 text-xs font-bold text-base/80">
           <span className="h-px flex-1 bg-base/15" />
           <span>OR</span>
           <span className="h-px flex-1 bg-base/15" />
@@ -135,11 +137,15 @@ export default function AuthPage() {
 
         <a
           href={`${BACKEND_URL}/auth/google`}
-          className="flex w-full items-center justify-center gap-2 rounded-[14px] border border-base/10 bg-white py-2.5 font-semibold text-base shadow shadow-dark/3 transition hover:border-base/25 hover:bg-base/5"
+          className="flex w-full relative overflow-hidden hover:scale-101 transition-all duration-300 max-w-sm items-center justify-center gap-2 rounded-[14px] border py-2.5 font-semibold text-base shadow shadow-dark/3 border-base/25 bg-base/5"
         >
+            <div className="bg-base/50 h-4 absolute -bottom-4 blur-[26px] rounded-full w-1/3 left-1/3"></div>
           <GoogleIcon />
           Continue with Google
         </a>
+      <p className="text-base/50 w-xs text-center text-sm mt-7 font-medium">
+      By clicking &#34;Continue&#34;, you agree to the <Link href="/terms" className="text-base font-semibold">terms & conditions</Link> and <Link href="/privacy" className="text-base font-semibold">privacy policy</Link> of Xenon.
+      </p>
       </div>
     </main>
   );

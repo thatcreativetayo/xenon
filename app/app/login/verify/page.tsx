@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   type ClipboardEvent,
@@ -180,17 +181,19 @@ function VerifyForm() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-5 py-12 text-dark">
       <div className="flex w-full max-w-sm flex-col items-center text-center">
-        <div className="mb-8 flex items-center gap-2 text-2xl font-bold text-base">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-base/10 text-base">
-            ϟ
-          </span>
-          Xenon
-        </div>
+         <Image
+          src="/logo.svg"
+          alt="Xenon"
+          width={160}
+          height={50}
+          className="mb-8 h-auto w-25"
+          priority
+        />
 
-        <h1 className="text-[32px] font-bold leading-tight tracking-[-1.5px]">
+        <h1 className="text-[28px] font-bold leading-tight tracking-[-1.5px]">
           Enter your code.
         </h1>
-        <p className="mt-2 font-medium text-dark/50">
+        <p className="mt-2 text-[15px] font-medium text-dark/50">
           We sent a code to <span className="break-all text-dark/70">{email}</span>
         </p>
 
@@ -211,7 +214,7 @@ function VerifyForm() {
                 onChange={(event) => handleChange(index, event.target.value)}
                 onKeyDown={(event) => handleKeyDown(index, event)}
                 onPaste={(event) => handlePaste(index, event)}
-                className="h-12 w-11 rounded-[14px] border border-base/20 bg-white text-center text-xl font-bold text-dark outline-0 shadow shadow-dark/3 focus:ring focus:ring-base/60"
+                className="h-12 w-12 rounded-[14px] border border-base/20 bg-white text-center text-xl font-bold text-dark outline-0 shadow shadow-dark/3 focus:ring focus:ring-base/60"
               />
             ))}
           </div>
@@ -225,7 +228,7 @@ function VerifyForm() {
           <button
             type="submit"
             disabled={!isComplete || isSubmitting}
-            className="mt-5 w-full rounded-[14px] bg-base py-2.5 font-bold text-white shadow-xl shadow-base/20 ring-4 ring-[#81623F]/20 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-5 w-[21rem] rounded-[14px] bg-base py-2.5 font-bold text-white shadow-xl shadow-base/20 ring-4 ring-[#81623F]/20 transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? "Verifying..." : "Continue"}
           </button>
@@ -235,7 +238,7 @@ function VerifyForm() {
           type="button"
           onClick={handleResend}
           disabled={secondsLeft > 0 || isResending}
-          className="mt-5 font-semibold text-base underline-offset-4 hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
+          className="mt-5 text-sm font-semibold text-base underline-offset-4 hover:underline disabled:cursor-not-allowed disabled:no-underline disabled:opacity-50"
         >
           {isResending
             ? "Sending..."
@@ -246,7 +249,7 @@ function VerifyForm() {
 
         <a
           href="/auth"
-          className="mt-4 font-semibold text-base/70 underline-offset-4 hover:underline"
+          className="mt-4 text-sm font-semibold text-base/70 underline-offset-4 hover:underline"
         >
           Use a different email
         </a>
