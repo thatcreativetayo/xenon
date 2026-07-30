@@ -26,6 +26,15 @@ export const badRequest = (code: string, message: string, details?: Record<strin
 
 export const unauthorized = (code: string, message: string) => new HttpError(401, code, message)
 
+/**
+ * Used where the caller is authenticated and the resource genuinely is theirs,
+ * but the action is refused anyway — a plan limit, or an owner-only operation.
+ * Distinct from the 404s that access checks return: hiding a workspace the
+ * caller can already see would only confuse them.
+ */
+export const forbidden = (code: string, message: string, details?: Record<string, unknown>) =>
+  new HttpError(403, code, message, details)
+
 export const notFound = (code: string, message: string) => new HttpError(404, code, message)
 
 export const conflict = (code: string, message: string) => new HttpError(409, code, message)

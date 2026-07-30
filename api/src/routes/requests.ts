@@ -11,6 +11,7 @@ import {
 import { parseName, parseObjectId } from '../lib/validate.js'
 import { currentUser } from '../middleware/requireAuth.js'
 import { getSavedRequestForUser } from '../services/access.js'
+import { assertAuthTypeAllowed, workspacePlan } from '../services/plans.js'
 import { publicSavedRequest } from './collections.js'
 
 export const savedRequestsRouter = express.Router()
@@ -27,7 +28,7 @@ savedRequestsRouter.patch(
     const requestId = parseObjectId(req.params.id, 'id')
     const body = (req.body ?? {}) as Record<string, unknown>
 
-    const { savedRequest } = await getSavedRequestForUser(user, requestId)
+    const { savedRequest, collection } = await getSavedRequestForUser(user, requestId)
 
     if (body.name !== undefined) savedRequest.name = parseName(body.name, 'name')
     if (body.method !== undefined) savedRequest.method = parseHttpMethod(body.method)
@@ -42,6 +43,7 @@ savedRequestsRouter.patch(
         body.authType ?? savedRequest.authType,
         body.authConfig,
       )
+      assertAuthTypeAllowed(await workspacePlan(String(collection.workspaceId)), authType)
       savedRequest.authType = authType
       savedRequest.authConfig = authConfig
     }

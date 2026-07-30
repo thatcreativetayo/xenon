@@ -7,8 +7,8 @@ export type WorkspaceRole = (typeof WORKSPACE_ROLES)[number]
 /**
  * One row per user per workspace. Every access check in the product resolves
  * down to "does a WorkspaceMember row exist for this user + workspace".
- * The invite flow that creates non-owner rows is a future task; the shape is
- * ready now so it won't need a migration.
+ * `owner` rows are created alongside the workspace itself; `member` rows come
+ * from an accepted WorkspaceInvite (see services/invites.ts).
  */
 const workspaceMemberSchema = new mongoose.Schema(
   {

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-import { notFound } from '../lib/errors.js'
+import { forbidden, notFound } from '../lib/errors.js'
 import type { UserDoc } from '../models/User.js'
 import { WorkspaceModel } from '../models/Workspace.js'
 import type { WorkspaceDoc } from '../models/Workspace.js'
@@ -59,6 +59,22 @@ export async function requireWorkspaceMembership(
   })
   if (!membership) {
     throw notFound('workspace_not_found', 'No such workspace.')
+  }
+  return membership
+}
+
+/**
+ * Owner-only variant, for actions that change who can reach a workspace.
+ * Returns 403 rather than 404 because the caller can already see the workspace —
+ * there is nothing left to hide, only an action to refuse.
+ */
+export async function requireWorkspaceOwner(
+  user: UserDoc,
+  workspaceId: string | mongoose.Types.ObjectId,
+): Promise<WorkspaceMemberDoc> {
+  const membership = await requireWorkspaceMembership(user, workspaceId)
+  if (membership.role !== 'owner') {
+    throw forbidden('owner_only', 'Only the workspace owner can do that.')
   }
   return membership
 }

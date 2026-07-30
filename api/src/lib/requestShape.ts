@@ -1,4 +1,5 @@
 import { badRequest } from './errors.js'
+import { containsPlaceholders } from './variables.js'
 import { AUTH_TYPES, HTTP_METHODS } from '../models/SavedRequest.js'
 import type { AuthType, HttpMethod } from '../models/SavedRequest.js'
 
@@ -35,12 +36,22 @@ export function parseHttpMethod(value: unknown): HttpMethod {
   return method as HttpMethod
 }
 
-/** Shape check only — reachability/SSRF rules live in lib/ssrf.ts. */
+/**
+ * Shape check only — reachability/SSRF rules live in lib/ssrf.ts.
+ *
+ * A url containing `{{placeholders}}` is not yet a URL, so it only gets the
+ * non-empty check here; the execute route re-validates with this same function
+ * AFTER substitution, once the string must stand on its own.
+ */
 export function parseTargetUrl(value: unknown): string {
   if (typeof value !== 'string' || value.trim() === '') {
     throw badRequest('url_required', 'A non-empty "url" string is required.')
   }
   const raw = value.trim()
+
+  if (containsPlaceholders(raw)) {
+    return raw
+  }
 
   let parsed: URL
   try {

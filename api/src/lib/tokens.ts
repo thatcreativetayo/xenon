@@ -20,3 +20,21 @@ export function generateEmailCode(): string {
 export function generateOAuthState(): string {
   return randomBytes(16).toString('hex')
 }
+
+/**
+ * Invite token. Travels in a URL that lands in someone's inbox, so it is both
+ * url-safe and full 256-bit strength — possession of it is the only thing
+ * standing between a stranger and a workspace.
+ */
+export function generateInviteToken(): string {
+  return randomBytes(32).toString('base64url')
+}
+
+/**
+ * Public-docs slug. Shorter than an invite token because it guards published
+ * content rather than write access, but still 128 bits — long enough that the
+ * slug space cannot be walked.
+ */
+export function generateShareSlug(): string {
+  return randomBytes(16).toString('base64url')
+}

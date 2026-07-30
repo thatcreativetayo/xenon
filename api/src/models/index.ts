@@ -1,7 +1,7 @@
 // Importing this barrel registers every model with mongoose, which
 // connectToDatabase() relies on to build indexes before serving traffic.
-export { UserModel } from './User.js'
-export type { User, UserDoc } from './User.js'
+export { UserModel, PLANS } from './User.js'
+export type { User, UserDoc, Plan } from './User.js'
 
 export { EmailCodeModel } from './EmailCode.js'
 export type { EmailCode, EmailCodeDoc } from './EmailCode.js'
@@ -15,6 +15,9 @@ export type { Workspace, WorkspaceDoc } from './Workspace.js'
 export { WorkspaceMemberModel, WORKSPACE_ROLES } from './WorkspaceMember.js'
 export type { WorkspaceMember, WorkspaceMemberDoc, WorkspaceRole } from './WorkspaceMember.js'
 
+export { WorkspaceInviteModel, INVITE_STATUSES } from './WorkspaceInvite.js'
+export type { WorkspaceInvite, WorkspaceInviteDoc, InviteStatus } from './WorkspaceInvite.js'
+
 export { CollectionModel } from './Collection.js'
 export type { Collection, CollectionDoc } from './Collection.js'
 
@@ -23,3 +26,6 @@ export type { SavedRequest, SavedRequestDoc, HttpMethod, AuthType } from './Save
 
 export { RequestHistoryModel } from './RequestHistory.js'
 export type { RequestHistory, RequestHistoryDoc } from './RequestHistory.js'
+
+export { EnvironmentModel } from './Environment.js'
+export type { Environment, EnvironmentDoc } from './Environment.js'

@@ -3,6 +3,7 @@ import type { UserDoc } from '../models/User.js'
 import { conflict, isDuplicateKeyError } from '../lib/errors.js'
 import { normalizeEmail } from '../lib/validate.js'
 import { generateSessionToken } from '../lib/tokens.js'
+import { effectivePlan } from './plans.js'
 
 /**
  * Account identity rules for Xenon.
@@ -123,6 +124,11 @@ export function publicUser(user: UserDoc) {
     email: user.email ?? null,
     name: user.name ?? null,
     hasGoogleLinked: Boolean(user.googleId),
+    // `effectivePlan` is what gating actually uses; `plan` is the raw stored
+    // value, which can still say "pro" after the paid period lapsed.
+    plan: user.plan ?? 'free',
+    effectivePlan: effectivePlan(user),
+    planExpiresAt: user.planExpiresAt ?? null,
     createdAt: user.createdAt,
   }
 }

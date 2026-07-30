@@ -70,6 +70,7 @@ pnpm dev:users    # table of every user row
 | `Collection` | `workspaceId`, `name`, `createdAt` |
 | `SavedRequest` | `collectionId`, `name`, `method`, `url`, `headers`, `params`, `body`, `authType`, `authConfig`, `createdAt`, `updatedAt` |
 | `RequestHistory` | `workspaceId`, `savedRequestId?`, `runByUserId`, `method`, `url`, `status` (0 = target never answered), `durationMs`, `ranAt` |
+| `Environment` | `workspaceId`, `name`, `baseUrl?`, `variables: [{key, value, secret}]`, `createdAt`, `updatedAt` — `secret` is a UI masking hint only; values are stored unencrypted for now |
 
 ## Product API
 
@@ -90,7 +91,23 @@ can't be probed.
 | `GET` | `/api/collections/:id/requests` | |
 | `PATCH` | `/api/requests/:id` | Partial update; bumps `updatedAt`. |
 | `DELETE` | `/api/requests/:id` | |
-| `POST` | `/api/execute` | Runs a request server-side. Same shape as a saved request plus `workspaceId` (or `savedRequestId` to infer it). Returns `{ status, statusText, headers, body, durationMs }`, records a history row. 15s timeout; 5 MB response cap; redirects returned, not followed. |
+| `POST` | `/api/workspaces/:id/environments` | `{ name, baseUrl?, variables? }` |
+| `GET` | `/api/workspaces/:id/environments` | |
+| `PATCH` | `/api/environments/:id` | Partial update of `name`/`baseUrl`/`variables`; bumps `updatedAt`. |
+| `DELETE` | `/api/environments/:id` | |
+| `POST` | `/api/execute` | Runs a request server-side. Same shape as a saved request plus `workspaceId` (or `savedRequestId` to infer it) and optional `environmentId`. Returns `{ status, statusText, headers, body, durationMs }` plus `unresolvedVariables`, records a history row. 15s timeout; 5 MB response cap; redirects returned, not followed. |
+
+### Environments and `{{variables}}`
+
+Saved requests and `/api/execute` payloads may use `{{name}}` placeholders in
+the `url`, header values, param values, and `body`. Passing `environmentId` to
+`/api/execute` substitutes them before the run: `{{baseUrl}}` from the
+environment's `baseUrl` field, everything else from `variables` by key. The
+environment must belong to the same workspace as the run. Unmatched
+placeholders are left as-is and reported in `unresolvedVariables` — except in
+the URL, where an unresolved placeholder is a 400 since it can't produce a
+fetchable address. Substitution runs **before** URL validation and the SSRF
+check, so the check always sees the real resolved target, never the template.
 
 New users get a default workspace (`"{name}'s Workspace"`, or `"My Workspace"`
 when the account has no name) on first login.

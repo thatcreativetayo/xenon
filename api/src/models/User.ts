@@ -1,6 +1,9 @@
 import mongoose from 'mongoose'
 import type { HydratedDocument, InferSchemaType, Model } from 'mongoose'
 
+export const PLANS = ['free', 'pro'] as const
+export type Plan = (typeof PLANS)[number]
+
 /**
  * `email` is the single source of truth for identity. A person who signs in with
  * an email code and later with Google (same address) is one row, not two —
@@ -35,6 +38,26 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       trim: true,
+    },
+    /**
+     * Billing state. `plan` alone is not the answer to "is this user pro" —
+     * `planExpiresAt` in the past means free regardless of what `plan` says, so
+     * a lapsed subscription degrades on its own even if a webhook was missed.
+     * services/billing.ts#isPro is the only thing that should read these.
+     */
+    plan: {
+      type: String,
+      enum: PLANS,
+      default: 'free',
+    },
+    planExpiresAt: {
+      type: Date,
+    },
+    paystackCustomerCode: {
+      type: String,
+    },
+    paystackSubscriptionCode: {
+      type: String,
     },
     createdAt: {
       type: Date,
