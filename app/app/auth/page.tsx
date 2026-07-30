@@ -112,10 +112,10 @@ export default function AuthPage() {
             placeholder="Enter your email address..."
             aria-invalid={Boolean(error)}
             aria-describedby={error ? "email-error" : undefined}
-            className="rounded-[14px] border border-base/20 bg-white px-3.5 py-2.5 font-medium text-dark outline-0 shadow shadow-dark/3 placeholder:text-dark/30 focus:ring focus:ring-base/60"
+            className={`rounded-[14px] border ${error ? "border-0 ring-2 ring-red-400" : "border-base/20"} bg-white px-3.5 py-2.5 font-medium text-dark outline-0 shadow shadow-dark/3 placeholder:text-dark/30 focus:ring focus:ring-base/60`}
           />
           {error && (
-            <p id="email-error" role="alert" className="-mt-1 text-sm font-semibold text-red-600">
+            <p id="email-error" role="alert" className="-mt-1 text-sm font-semibold text-red-400">
               {error}
             </p>
           )}
